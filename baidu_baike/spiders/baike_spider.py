@@ -4,7 +4,7 @@ import re
 out_file = open("data.txt",mode="w",encoding="utf-8")
 remove = re.compile('\s')
 name_set = set()
-f = open("baike.dic",mode="r",encoding="utf-8")
+f = open("C:\\Users\\gt\\Desktop\\baidu_baike\\baidu_baike\\spiders\\baike.dic",mode="r",encoding="utf-8")
 for line in f:
     name_set.add(line.strip())
 
@@ -20,7 +20,7 @@ class YoulaiSpider(scrapy.Spider):
             url = self.start_urls[0] + name
             # print(url)
             # print("停顿1秒...............")
-            time.sleep(1)
+            time.sleep(0.1)
 
             requests = scrapy.Request(url,
                                       callback=self.sub_parse)
@@ -30,9 +30,12 @@ class YoulaiSpider(scrapy.Spider):
     def sub_parse(self, response):
         # print(response.url + " !!!")
         content_list = response.xpath('.//div[@class="para"]').xpath('string(.)').extract()
-        for content in content_list:
-            content = re.sub(remove, '', content)
-            print(content)
+        for i,content in enumerate(content_list):
+            content = re.sub(remove, '', content.strip())
+            if i == 0:
+                print(content)
             out_file.write(content)
             out_file.write("\n")
             out_file.flush()
+        out_file.write("\n")
+        out_file.flush()
