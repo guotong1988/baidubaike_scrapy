@@ -4,7 +4,7 @@ import re
 out_file = open("data.txt",mode="w",encoding="utf-8")
 remove = re.compile('\s')
 name_set = set()
-f = open("C:\\Users\\gt\\Desktop\\baidu_baike\\baidu_baike\\spiders\\baike.dic",mode="r",encoding="utf-8")
+f = open("baike.dic",mode="r",encoding="utf-8")
 for line in f:
     name_set.add(line.strip())
 
