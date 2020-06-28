@@ -8,7 +8,7 @@ f = open("baike.dic",mode="r",encoding="utf-8")
 for line in f:
     name_set.add(line.strip())
 
-class YoulaiSpider(scrapy.Spider):
+class BaikeSpider(scrapy.Spider):
     name = "baike"
     allowed_domains = ["baike.baidu.com"]
     start_urls = [
@@ -30,12 +30,16 @@ class YoulaiSpider(scrapy.Spider):
     def sub_parse(self, response):
         # print(response.url + " !!!")
         content_list = response.xpath('.//div[@class="para"]').xpath('string(.)').extract()
+        flag = False
         for i,content in enumerate(content_list):
             content = re.sub(remove, '', content.strip())
             if i == 0:
                 print(content)
-            out_file.write(content)
+            if len(content) > 15:
+                flag = True
+                out_file.write(content)
+                out_file.write("\n")
+                out_file.flush()
+        if flag:
             out_file.write("\n")
             out_file.flush()
-        out_file.write("\n")
-        out_file.flush()
