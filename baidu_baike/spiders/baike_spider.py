@@ -2,7 +2,7 @@ import scrapy
 import time
 import re
 out_file = open("data.txt",mode="w",encoding="utf-8")
-remove = re.compile('\s')
+
 name_set = set()
 f = open("baike.dic",mode="r",encoding="utf-8")
 for line in f:
@@ -32,9 +32,8 @@ class BaikeSpider(scrapy.Spider):
         content_list = response.xpath('.//div[@class="para"]').xpath('string(.)').extract()
         flag = False
         for i,content in enumerate(content_list):
-            content = re.sub(remove, '', content.strip())
-            if i == 0:
-                print(content)
+            content = content.strip()
+            content = content.replace("\n","")
             if len(content) > 15:
                 flag = True
                 out_file.write(content)
